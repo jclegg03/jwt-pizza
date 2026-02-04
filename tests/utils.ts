@@ -5,13 +5,14 @@ export type MokeMode =
     | "menu"
     | "franchises"
     | "stores"
+    | "me"
     | "admin";
 
 async function mockAuth(page: Page) {
     await page.route('*/**/api/auth', async (route) => {
     const loginRes = {
         user: {
-        id: 3,
+        id: 1,
         name: 'j',
         email: 'j@test',
         roles: [{ role: 'diner' }],
@@ -52,6 +53,14 @@ async function mockMenu(page: Page) {
         }]
 
         await route.fulfill({ json: menuRes });
+    });
+}
+
+async function mockMe(page: Page) {
+    await page.route('*/**/api/user/me', async (route) => {
+        const meRes = {"id":1,"name":"j","email":"j@test","roles":[{"role":"diner"}],"iat":12345}
+
+        await route.fulfill({ json: meRes });
     });
 }
 
@@ -98,6 +107,10 @@ export async function mockAPI(page: Page, ... modes: MokeMode[]) {
             }
             case "franchises": {
                 await mockFranchises(page);
+                break;
+            }
+            case 'me': {
+                await mockMe(page);
                 break;
             }
             case 'admin': 
