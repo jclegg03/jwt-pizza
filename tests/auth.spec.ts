@@ -1,6 +1,5 @@
 import { test, expect } from 'playwright-test-coverage';
-import { mockAPI } from './mock';
-import { Page } from '@playwright/test';
+import { mockAPI, login } from './utils';
 
 test('register', async ({ page }) => {
   // await initializeTest(page);
@@ -30,19 +29,8 @@ test('login', async ({ page }) => {
 
 test('logout', async ({ page }) => {
   await login(page);
-  
+
   await page.getByRole('link', { name: 'Logout' }).click();
   await expect(page.getByRole('link', { name: 'Login' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Register' })).toBeVisible();
 });
-
-export async function login(page: Page) {
-  await page.goto('http://localhost:5173/');
-  mockAPI(page, "auth");
-
-  await page.getByRole('link', { name: 'Login' }).click();
-  await page.getByRole('textbox', { name: 'Email address' }).fill('j@test');
-  await page.getByRole('textbox', { name: 'Password' }).click();
-  await page.getByRole('textbox', { name: 'Password' }).fill('monkeypie');
-  await page.getByRole('button', { name: 'Login' }).click();
-}
