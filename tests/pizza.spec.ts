@@ -5,7 +5,7 @@ import { mockAPI } from './mock';
 test('register', async ({ page }) => {
   // await initializeTest(page);
   await page.goto('http://localhost:5173/');
-  mockAPI(page, "auth")
+  mockAPI(page, "auth");
 
   await page.getByRole('link', { name: 'Register' }).click();
   await page.getByRole('textbox', { name: 'Full name' }).click();
@@ -15,6 +15,22 @@ test('register', async ({ page }) => {
   await page.getByRole('textbox', { name: 'Password' }).click();
   await page.getByRole('textbox', { name: 'Password' }).fill('monkeypie');
   await page.getByRole('button', { name: 'Register' }).click();
+  await page.getByRole('link', { name: 'j' }).click();
+  await expect(page.getByRole('main')).toContainText('j@test');
+  await expect(page.getByRole('main')).toContainText('diner');
+});
+
+test('login', async ({ page }) => {
+  await page.goto('http://localhost:5173/');
+  mockAPI(page, "auth");
+
+
+  await page.getByRole('link', { name: 'Login' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).fill('j@test');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('monkeypie');
+  await page.getByRole('button', { name: 'Login' }).click();
+
   await page.getByRole('link', { name: 'j' }).click();
   await expect(page.getByRole('main')).toContainText('j@test');
   await expect(page.getByRole('main')).toContainText('diner');
