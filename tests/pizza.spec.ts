@@ -35,3 +35,19 @@ test('login', async ({ page }) => {
   await expect(page.getByRole('main')).toContainText('j@test');
   await expect(page.getByRole('main')).toContainText('diner');
 });
+
+test('logout', async ({ page }) => {
+  await page.goto('http://localhost:5173/');
+  mockAPI(page, "auth");
+
+  await page.getByRole('link', { name: 'Register' }).click();
+  await page.getByRole('textbox', { name: 'Full name' }).fill('j');
+  await page.getByRole('textbox', { name: 'Email address' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).fill('j@j');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('j');
+  await page.getByRole('button', { name: 'Register' }).click();
+  await page.getByRole('link', { name: 'Logout' }).click();
+  await expect(page.getByRole('link', { name: 'Login' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Register' })).toBeVisible();
+});

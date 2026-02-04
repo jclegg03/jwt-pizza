@@ -16,7 +16,18 @@ async function mockAuth(page: Page){
         },
         token: 'abcdef',
     };
-    await route.fulfill({ json: loginRes });
+
+    switch (route.request().method()) {
+        case 'POST':
+        case 'PUT': {
+            await route.fulfill({ json: loginRes });
+            break;
+        }
+        case 'DELETE': {
+            await route.fulfill({ json: { message: "logout successful" } });
+            break;
+        }
+    }
     });
 }
 
