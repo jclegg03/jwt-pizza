@@ -1,6 +1,6 @@
 import { test, expect } from 'playwright-test-coverage';
 import { mockAPI } from './mock';
-// import { MockMode, mockAPI } from 'mock.ts'
+import { Page } from '@playwright/test';
 
 test('register', async ({ page }) => {
   // await initializeTest(page);
@@ -21,15 +21,7 @@ test('register', async ({ page }) => {
 });
 
 test('login', async ({ page }) => {
-  await page.goto('http://localhost:5173/');
-  mockAPI(page, "auth");
-
-
-  await page.getByRole('link', { name: 'Login' }).click();
-  await page.getByRole('textbox', { name: 'Email address' }).fill('j@test');
-  await page.getByRole('textbox', { name: 'Password' }).click();
-  await page.getByRole('textbox', { name: 'Password' }).fill('monkeypie');
-  await page.getByRole('button', { name: 'Login' }).click();
+  await login(page);
 
   await page.getByRole('link', { name: 'j' }).click();
   await expect(page.getByRole('main')).toContainText('j@test');
@@ -37,17 +29,20 @@ test('login', async ({ page }) => {
 });
 
 test('logout', async ({ page }) => {
-  await page.goto('http://localhost:5173/');
-  mockAPI(page, "auth");
-
-  await page.getByRole('link', { name: 'Register' }).click();
-  await page.getByRole('textbox', { name: 'Full name' }).fill('j');
-  await page.getByRole('textbox', { name: 'Email address' }).click();
-  await page.getByRole('textbox', { name: 'Email address' }).fill('j@j');
-  await page.getByRole('textbox', { name: 'Password' }).click();
-  await page.getByRole('textbox', { name: 'Password' }).fill('j');
-  await page.getByRole('button', { name: 'Register' }).click();
+  await login(page);
+  
   await page.getByRole('link', { name: 'Logout' }).click();
   await expect(page.getByRole('link', { name: 'Login' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Register' })).toBeVisible();
 });
+
+export async function login(page: Page) {
+  await page.goto('http://localhost:5173/');
+  mockAPI(page, "auth");
+
+  await page.getByRole('link', { name: 'Login' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).fill('j@test');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('monkeypie');
+  await page.getByRole('button', { name: 'Login' }).click();
+}
