@@ -1,27 +1,21 @@
 import { test, expect } from 'playwright-test-coverage';
+import { mockAPI } from './mock';
+// import { MockMode, mockAPI } from 'mock.ts'
 
-test('home page', async ({ page }) => {
-  await page.goto('/');
+test('register', async ({ page }) => {
+  // await initializeTest(page);
+  await page.goto('http://localhost:5173/');
+  mockAPI(page, "auth")
 
-  expect(await page.title()).toBe('JWT Pizza');
-});
-
-test('purchase with login', async ({ page }) => {
-  await page.goto("/");
-  await page.getByRole('link', { name: 'Order' }).click();
-  await page.getByRole('combobox').selectOption('28');
-  await page.getByRole('link', { name: 'Image Description Veggie A' }).click();
-  await page.getByRole('button', { name: 'Checkout' }).click();
-  await page.getByRole('textbox', { name: 'Email address' }).fill('j');
-  await page.getByRole('textbox', { name: 'Email address' }).press('Tab');
-  await page.getByRole('textbox', { name: 'Password' }).fill('c');
-  await page.getByRole('button', { name: 'Login' }).click();
+  await page.getByRole('link', { name: 'Register' }).click();
+  await page.getByRole('textbox', { name: 'Full name' }).click();
+  await page.getByRole('textbox', { name: 'Full name' }).fill('j');
   await page.getByRole('textbox', { name: 'Email address' }).click();
-  await page.getByRole('textbox', { name: 'Email address' }).fill('d@jwt.com');
-  await page.getByRole('textbox', { name: 'Email address' }).press('Tab');
-  await page.getByRole('textbox', { name: 'Password' }).fill('diner');
-  await page.getByRole('textbox', { name: 'Password' }).press('Enter');
-  await page.getByRole('button', { name: 'Pay now' }).click();
-  await page.getByRole('button', { name: 'Verify' }).click();
-  await page.getByRole('button', { name: 'Close' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).fill('j@test');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('monkeypie');
+  await page.getByRole('button', { name: 'Register' }).click();
+  await page.getByRole('link', { name: 'j' }).click();
+  await expect(page.getByRole('main')).toContainText('j@test');
+  await expect(page.getByRole('main')).toContainText('diner');
 });
