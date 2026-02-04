@@ -13,13 +13,14 @@ test('order pizza', async ({ page }) => {
     await page.getByRole('button', { name: 'Checkout' }).click();
 
     await expect(page.locator('tbody')).toContainText('Veggie');
-
     await expect(page.locator('tfoot')).toContainText('1 pie');
+
     await page.getByRole('button', { name: 'Pay now' }).click();
+    
 });
 
 async function setup(page: Page) {
     await login(page);
-    await mockAPI(page, 'menu', 'franchises', 'me');
+    await mockAPI(page, 'menu', 'franchises', 'me', 'order');
     await page.getByRole('link', { name: 'Order' }).click();
 }
