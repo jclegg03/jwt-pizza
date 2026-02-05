@@ -1,4 +1,5 @@
 import { Page } from '@playwright/test';
+import { BrowserContext } from '@playwright/test';
 
 export type MokeMode =
     | "auth"
@@ -7,10 +8,11 @@ export type MokeMode =
     | "franchises"
     | "stores"
     | "me"
+    | 'verify'
     | "admin";
 
-async function mockAuth(page: Page) {
-    await page.route('*/**/api/auth', async (route) => {
+async function mockAuth(context: BrowserContext) {
+    await context.route('**/api/auth', async (route) => {
         const loginRes = {
             user: {
                 id: 1,
@@ -35,8 +37,8 @@ async function mockAuth(page: Page) {
     });
 }
 
-async function mockMenu(page: Page) {
-    await page.route('*/**/api/order/menu', async (route) => {
+async function mockMenu(context: BrowserContext) {
+    await context.route('**/api/order/menu', async (route) => {
         const menuRes = [
             {
                 "id": 1,
@@ -57,16 +59,15 @@ async function mockMenu(page: Page) {
     });
 }
 
-async function mockMe(page: Page) {
-    await page.route('*/**/api/user/me', async (route) => {
+async function mockMe(context: BrowserContext) {
+    await context.route('**/api/user/me', async (route) => {
         const meRes = { "id": 1, "name": "j", "email": "j@test", "roles": [{ "role": "diner" }], "iat": 12345 }
-
         await route.fulfill({ json: meRes });
     });
 }
 
-async function mockFranchises(page: Page) {
-    await page.route('*/**/api/franchise*', async (route) => {
+async function mockFranchises(context: BrowserContext) {
+    await context.route('**/api/franchise*', async (route) => {
         const franchiseRes = {
             franchises: [
                 {
@@ -95,8 +96,8 @@ async function mockFranchises(page: Page) {
     });
 }
 
-async function mockOrder(page: Page) {
-    await page.route('*/**/api/order', async (route) => {
+async function mockOrder(context: BrowserContext) {
+    await context.route('**/api/order', async (route) => {
         const orderRes = {
             "order": {
                 "items": [
@@ -106,38 +107,75 @@ async function mockOrder(page: Page) {
                         "price": 0.0038
                     }
                 ],
-                "storeId": "19",
-                "franchiseId": 19,
-                "id": 1561
+                "storeId": 1,
+                "franchiseId": 1,
+                "id": 1
             },
-            "jwt": "eyJpYXQiOjE3NzAxNzY3MjUsImV4cCI6MTc3MDI2MzEyNSwiaXNzIjoiY3MzMjkuY2xpY2siLCJhbGciOiJSUzI1NiIsImtpZCI6Ik9TcF94VzhlM3kwNk1KS3ZIeW9sRFZMaXZXX2hnTWxhcFZSUVFQVndiY0UifQ.eyJ2ZW5kb3IiOnsiaWQiOiJieXVjc3N0dWRlbnQiLCJuYW1lIjoiQllVIFN0dWRlbnQifSwiZGluZXIiOnsiaWQiOjQwOCwibmFtZSI6ImoiLCJlbWFpbCI6ImpAaiJ9LCJvcmRlciI6eyJpdGVtcyI6W3sibWVudUlkIjoxLCJkZXNjcmlwdGlvbiI6IlZlZ2dpZSIsInByaWNlIjowLjAwMzh9XSwic3RvcmVJZCI6IjE5IiwiZnJhbmNoaXNlSWQiOjE5LCJpZCI6MTU2MX19.dwvafQ_8zXXWEhq7AJvuwBxak9r5lln2JxjLQMXU5-yDVSdfJFsyGxQWzZid6xIFa1wr0Jruh1DCaDRWQ8OIDiNbNHXQ-BL857VcS8kPTnE73Xyk-X25twC_0k8Sdjp6uNSweTui01VPnkGYTt6UNv3Ue_MSv9rOKHrpfDeyxcY9ggqfCRBeIExjZyj1KHoEzJmXwXdgbmswcfDNrAYVOKB9SUzpYogUGCA_6QiTWoUpoX91qjecF701zR683BbSni1lWhk4vl2Yq2dZCMgQxf2ulwVDoMQxO3ErG9G-Ati4xMU5xNhHxQhjdpHStJqWt5HZ4kfTQhyokMiYPmhUTDRItLsBBVFmni31eAbDkI_mUhyWlDFds3fqh6oTzUr1f8jkpKqMyiYmN18UyReD0sUrzNZsYOYrX6eb8i_xMJmefHecHnVoRK8l84Why3Bd_ka0OOxZ0_L_7uwp89Z0MQrHOC4-Pu_QhGKIeQLyxFnt_LchUXkNrrU2O0Y3ugDVeyLom0wOQa08xM_sDf5f8VK-_oowVEWiIweQkK5gBiCycVxGV_pu83dSCMFCsKjMCRotM4tRo4vEOYlolDCpBES25FVCK_lEmh8xHZXoVuiM0Y2_etQmpHxIfhrXRZ05xU1W1phKf5BNY8GKVUCA1E-4OCDaQgzC6DbL_3svb3c"
+            jwt: "easy.JWT.pizza"
         }
 
         await route.fulfill({ json: orderRes });
     });
 }
 
-export async function mockAPI(page: Page, ...modes: MokeMode[]) {
+async function mockVerify(context: BrowserContext) {
+    await context.route('**/api/order/verify', async (route) => {
+        const verifyRes = {
+    "message": "valid",
+    "payload": {
+        "vendor": {
+            "id": "byucsstudent",
+            "name": "BYU Student"
+        },
+        "diner": {
+            "id": 1,
+            "name": "j",
+            "email": "j@j"
+        },
+        "order": {
+            "items": [
+                {
+                    "menuId": 1,
+                    "description": "Veggie",
+                    "price": 0.0038
+                }
+            ],
+            "storeId": 1,
+            "franchiseId": 1,
+            "id": 1
+        }
+    }
+}
+
+        await route.fulfill({ json: verifyRes });
+    });
+}
+
+export async function mockAPI(context: BrowserContext, ...modes: MokeMode[]) {
     for (const mode of modes) {
         switch (mode) {
             case 'auth': {
-                await mockAuth(page);
+                await mockAuth(context);
                 break;
             }
             case 'menu': {
-                await mockMenu(page);
+                await mockMenu(context);
                 break;
             }
             case "franchises": {
-                await mockFranchises(page);
+                await mockFranchises(context);
                 break;
             }
             case 'me': {
-                await mockMe(page);
+                await mockMe(context);
                 break;
             }
             case 'order': {
-                await mockOrder(page);
+                await mockOrder(context);
+                break;
+            }
+            case 'verify': {
+                await mockVerify(context);
                 break;
             }
             case 'admin':
@@ -149,9 +187,9 @@ export async function mockAPI(page: Page, ...modes: MokeMode[]) {
     }
 }
 
-export async function login(page: Page) {
+export async function login(page: Page, context: BrowserContext) {
+    mockAPI(context, "auth");
     await page.goto('http://localhost:5173/');
-    mockAPI(page, "auth");
 
     await page.getByRole('link', { name: 'Login' }).click();
     await page.getByRole('textbox', { name: 'Email address' }).fill('j@test');

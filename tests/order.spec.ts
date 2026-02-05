@@ -1,11 +1,12 @@
 import { test, expect } from 'playwright-test-coverage';
 import { login, mockAPI } from './utils';
 import { Page } from '@playwright/test';
+import { BrowserContext } from '@playwright/test';
 
-test('order pizza', async ({ page }) => {
-    await setup(page);
+test('order pizza', async ({ page, context}) => {
+    await setup(page, context);
 
-    expect(page.getByRole('button', { name: 'Checkout' })).toBeDisabled();
+    await expect(page.getByRole('button', { name: 'Checkout' })).toBeDisabled();
 
     await page.getByRole('combobox').selectOption('1');
     await page.getByRole('link', { name: 'Order' }).click();
@@ -16,11 +17,11 @@ test('order pizza', async ({ page }) => {
     await expect(page.locator('tfoot')).toContainText('1 pie');
 
     await page.getByRole('button', { name: 'Pay now' }).click();
-    
+    await expect(page.getByText('easy.JWT.pizza')).toHaveCSS('color', 'rgb(239, 68, 68)');
 });
 
-async function setup(page: Page) {
-    await login(page);
-    await mockAPI(page, 'menu', 'franchises', 'me', 'order');
+async function setup(page: Page, context: BrowserContext) {
+    await login(page, context);
+    await mockAPI(context, 'menu', 'verify', 'franchises', 'me', 'order');
     await page.getByRole('link', { name: 'Order' }).click();
 }
