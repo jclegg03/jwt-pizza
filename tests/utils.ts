@@ -34,7 +34,7 @@ async function mockAuth(context: BrowserContext) {
                 break;
             }
         }
-    });
+    }, { times: Infinity });
 }
 
 async function mockMenu(context: BrowserContext) {
@@ -56,14 +56,14 @@ async function mockMenu(context: BrowserContext) {
             }]
 
         await route.fulfill({ json: menuRes });
-    });
+    }, { times: Infinity });
 }
 
 async function mockMe(context: BrowserContext) {
     await context.route('**/api/user/me', async (route) => {
         const meRes = { "id": 1, "name": "j", "email": "j@test", "roles": [{ "role": "diner" }], "iat": 12345 }
         await route.fulfill({ json: meRes });
-    });
+    }, { times: Infinity });
 }
 
 async function mockFranchises(context: BrowserContext) {
@@ -93,7 +93,7 @@ async function mockFranchises(context: BrowserContext) {
         }
 
         await route.fulfill({ json: franchiseRes });
-    });
+    }, { times: Infinity });
 }
 
 async function mockOrder(context: BrowserContext) {
@@ -115,7 +115,7 @@ async function mockOrder(context: BrowserContext) {
         }
 
         await route.fulfill({ json: orderRes });
-    });
+    }, { times: Infinity });
 }
 
 async function mockVerify(context: BrowserContext) {
@@ -148,7 +148,7 @@ async function mockVerify(context: BrowserContext) {
 }
 
         await route.fulfill({ json: verifyRes });
-    });
+    }, { times: Infinity });
 }
 
 export async function mockAPI(context: BrowserContext, ...modes: MokeMode[]) {

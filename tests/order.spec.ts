@@ -18,6 +18,8 @@ test('order pizza', async ({ page, context}) => {
 
     await page.getByRole('button', { name: 'Pay now' }).click();
     await expect(page.getByText('easy.JWT.pizza')).toHaveCSS('color', 'rgb(239, 68, 68)');
+
+    await page.getByRole('button', { name: 'Order more' }).click();
 });
 
 async function setup(page: Page, context: BrowserContext) {
