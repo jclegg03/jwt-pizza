@@ -187,8 +187,7 @@ export async function mockAPI(context: BrowserContext, ...modes: MokeMode[]) {
     }
 }
 
-export async function login(page: Page, context: BrowserContext) {
-    mockAPI(context, "auth");
+export async function login(page: Page) {
     await page.goto('http://localhost:5173/');
 
     await page.getByRole('link', { name: 'Login' }).click();

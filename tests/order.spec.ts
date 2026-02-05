@@ -35,7 +35,7 @@ async function orderPizza(page: Page, context: BrowserContext) {
 }
 
 async function setup(page: Page, context: BrowserContext) {
-    await login(page, context);
-    await mockAPI(context, 'menu', 'verify', 'franchises', 'me', 'order');
+    await mockAPI(context, 'auth', 'menu', 'verify', 'franchises', 'me', 'order');
+    await login(page);
     await page.getByRole('link', { name: 'Order' }).click();
 }
