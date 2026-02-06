@@ -1,6 +1,11 @@
 import { Page } from '@playwright/test';
 import { BrowserContext } from '@playwright/test';
 
+type Role = {
+    role: String,
+    objectId?: Number
+}
+
 export type MokeMode =
     | "auth"
     | "menu"
@@ -9,16 +14,20 @@ export type MokeMode =
     | "stores"
     | "me"
     | 'verify'
-    | "admin";
+    | "admin"
+    | 'franchisee'
+    | 'getFranchise';
 
 async function mockAuth(context: BrowserContext, role: String) {
     await context.route('**/api/auth', async (route) => {
+        const roleEntry: Role = role === 'franchisee'? {role, objectId: 1} : {role};
+
         const loginRes = {
             user: {
                 id: 1,
                 name: 'j',
                 email: 'j@test',
-                roles: [{ role: role }],
+                roles: [roleEntry],
             },
             token: 'abcdef',
         };
@@ -151,6 +160,27 @@ async function mockVerify(context: BrowserContext) {
     }, { times: Infinity });
 }
 
+async function mockGetFranchise(context: BrowserContext) {
+    await context.route('**/api/franchise/1', async (route) => {
+        const franchiseRes = [
+    {
+        "id": 1,
+        "name": "cool Franchise",
+        "admins": [
+            {
+                "id": 1,
+                "name": "j",
+                "email": "j@test"
+            }
+        ],
+        "stores": []
+    }
+]
+
+        await route.fulfill({ json: franchiseRes });
+    }, { times: Infinity });
+}
+
 export async function mockAPI(context: BrowserContext, ...modes: MokeMode[]) {
     for (const mode of modes) {
         switch (mode) {
@@ -180,6 +210,14 @@ export async function mockAPI(context: BrowserContext, ...modes: MokeMode[]) {
             }
             case 'admin': {
                 await mockAuth(context, 'admin');
+                break;
+            }
+            case 'franchisee': {
+                await mockAuth(context, 'franchisee');
+                break;
+            }
+            case 'getFranchise': {
+                await mockGetFranchise(context);
                 break;
             }
             case 'stores': {
