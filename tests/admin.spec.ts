@@ -1,4 +1,4 @@
-import { test, expect } from 'playwright-test-coverage';
+import { test } from 'playwright-test-coverage';
 import { mockAPI, login } from './utils';
 import { BrowserContext, Page } from '@playwright/test';
 
