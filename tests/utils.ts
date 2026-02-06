@@ -11,14 +11,14 @@ export type MokeMode =
     | 'verify'
     | "admin";
 
-async function mockAuth(context: BrowserContext) {
+async function mockAuth(context: BrowserContext, role: String) {
     await context.route('**/api/auth', async (route) => {
         const loginRes = {
             user: {
                 id: 1,
                 name: 'j',
                 email: 'j@test',
-                roles: [{ role: 'diner' }],
+                roles: [{ role: role }],
             },
             token: 'abcdef',
         };
@@ -155,7 +155,7 @@ export async function mockAPI(context: BrowserContext, ...modes: MokeMode[]) {
     for (const mode of modes) {
         switch (mode) {
             case 'auth': {
-                await mockAuth(context);
+                await mockAuth(context, 'diner');
                 break;
             }
             case 'menu': {
@@ -178,7 +178,10 @@ export async function mockAPI(context: BrowserContext, ...modes: MokeMode[]) {
                 await mockVerify(context);
                 break;
             }
-            case 'admin':
+            case 'admin': {
+                await mockAuth(context, 'admin');
+                break;
+            }
             case 'stores': {
                 throw new Error("not implemented")
             }
