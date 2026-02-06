@@ -3,20 +3,21 @@ import { login, mockAPI } from './utils';
 import { Page } from '@playwright/test';
 import { BrowserContext } from '@playwright/test';
 
-// test('order pizza, then more', async ({ page, context}) => {
-//     await orderPizza(page, context);
-//     await expect(page.getByText('easy.JWT.pizza')).toHaveCSS('color', 'rgb(239, 68, 68)');
+test('order pizza, then more', async ({ page, context}) => {
+    await orderPizza(page, context);
+    await expect(page.getByText('easy.JWT.pizza')).toHaveCSS('color', 'rgb(239, 68, 68)');
 
-//     await page.getByRole('button', { name: 'Order more' }).click();
-// });
+    await page.getByRole('button', { name: 'Order more' }).click();
+    await expect(page.locator('h2')).toContainText('Awesome is a click afewfq');
+});
 
-// test('order pizza, then verify', async ({ page, context}) => {
-//     await orderPizza(page, context);
+test('order pizza, then verify', async ({ page, context}) => {
+    await orderPizza(page, context);
 
-//     await page.getByRole('button', { name: 'Verify' }).click();
+    await page.getByRole('button', { name: 'Verify' }).click();
 
-//     await expect(page.locator('h3')).toContainText('JWT Pizza - valid');
-// });
+    await expect(page.locator('h3')).toContainText('JWT Pizza - valid');
+});
 
 async function orderPizza(page: Page, context: BrowserContext) {
     await setup(page, context);
