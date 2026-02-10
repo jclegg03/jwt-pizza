@@ -1,4 +1,4 @@
-import { test } from 'playwright-test-coverage';
+import { test, expect } from 'playwright-test-coverage';
 import { mockAPI, login } from './utils';
 import { BrowserContext, Page } from '@playwright/test';
 
@@ -28,6 +28,13 @@ test("Add Franchise", async ({page, context}) => {
     await page.getByRole('textbox', { name: 'franchisee admin email' }).fill('cool@cool');
     await page.getByRole('button', { name: 'Create' }).click();
 });
+
+test("View/Delete Users", async ({page, context}) => {
+    await loginAdmin(page, context);
+    await page.getByRole('link', { name: 'Admin' }).click();
+
+    await expect(page.getByRole('button', { name: 'View/Delete Users' })).toBeEnabled();
+})
 
 async function mockCloseFranchise(context: BrowserContext) {
     await context.route('**/api/franchise/1', async (route) => {
