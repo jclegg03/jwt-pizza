@@ -1,12 +1,12 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { useBreadcrumb } from '../hooks/appNavigation';
-import { StoreIcon } from '../icons';
-import View from './view';
+import { useBreadcrumb } from '../../hooks/appNavigation';
+import { StoreIcon } from '../../icons';
+import View from '../general/view';
 
-import Button from '../components/button';
-import { pizzaService } from '../service/service';
-import { Store } from '../service/pizzaService';
+import Button from '../../components/button';
+import { pizzaService } from '../../service/service';
+import { Store } from '../../service/pizzaService';
 
 export default function CreateStore() {
   const state = useLocation().state;

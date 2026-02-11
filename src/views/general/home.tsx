@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import View from './view';
-import Carousel from '../components/carousel';
-import Quote from '../components/quote';
-import Button from '../components/button';
+import Carousel from '../../components/carousel';
+import Quote from '../../components/quote';
+import Button from '../../components/button';
 
 export default function Home() {
   const navigate = useNavigate();

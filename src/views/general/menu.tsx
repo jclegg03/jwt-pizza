@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { pizzaService } from '../service/service';
+import { pizzaService } from '../../service/service';
 import View from './view';
-import Card from '../components/card';
-import Button from '../components/button';
+import Card from '../../components/card';
+import Button from '../../components/button';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Franchise, Menu, Pizza, Store } from '../service/pizzaService';
+import { Franchise, Menu, Pizza, Store } from '../../service/pizzaService';
 
 export default function Menu() {
   const [order, setOrder] = useState(useLocation().state?.order || { items: [] });

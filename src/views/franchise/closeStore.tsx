@@ -1,9 +1,9 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { useBreadcrumb } from '../hooks/appNavigation';
-import { pizzaService } from '../service/service';
-import View from './view';
-import Button from '../components/button';
+import { useBreadcrumb } from '../../hooks/appNavigation';
+import { pizzaService } from '../../service/service';
+import View from '../general/view';
+import Button from '../../components/button';
 
 export default function CloseStore() {
   const state = useLocation().state;

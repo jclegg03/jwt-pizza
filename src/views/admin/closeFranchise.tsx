@@ -1,9 +1,9 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { pizzaService } from '../service/service';
-import View from './view';
-import Button from '../components/button';
-import { useBreadcrumb } from '../hooks/appNavigation';
+import { pizzaService } from '../../service/service';
+import View from '../general/view';
+import Button from '../../components/button';
+import { useBreadcrumb } from '../../hooks/appNavigation';
 
 export default function CloseFranchise() {
   const state = useLocation().state;

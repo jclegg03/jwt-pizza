@@ -1,8 +1,8 @@
 import React from 'react';
-import View from './view';
-import { pizzaService } from '../service/service';
+import View from '../general/view';
+import { pizzaService } from '../../service/service';
 import { useParams } from 'react-router-dom';
-import { Endpoints } from '../service/pizzaService';
+import { Endpoints } from '../../service/pizzaService';
 
 const apis = [
   { name: 'service', url: import.meta.env.VITE_PIZZA_SERVICE_URL },

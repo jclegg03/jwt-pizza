@@ -1,11 +1,11 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Button from '../components/button';
-import View from './view';
-import { pizzaService } from '../service/service';
-import { CloseIcon } from '../icons';
+import Button from '../../components/button';
+import View from '../general/view';
+import { pizzaService } from '../../service/service';
+import { CloseIcon } from '../../icons';
 import { HSOverlay } from 'preline';
-import { JWTPayload, Order } from '../service/pizzaService';
+import { JWTPayload, Order } from '../../service/pizzaService';
 
 export default function Delivery() {
   const navigate = useNavigate();

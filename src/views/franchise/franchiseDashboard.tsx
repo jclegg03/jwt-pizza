@@ -1,11 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
-import View from './view';
-import { TrashIcon, CautionIcon } from '../icons';
-import Button from '../components/button';
-import { pizzaService } from '../service/service';
-import { Franchise, Store, User } from '../service/pizzaService';
+import View from '../general/view';
+import { TrashIcon, CautionIcon } from '../../icons';
+import Button from '../../components/button';
+import { pizzaService } from '../../service/service';
+import { Franchise, Store, User } from '../../service/pizzaService';
 
 interface Props {
   user: User | null;

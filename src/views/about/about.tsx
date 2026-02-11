@@ -1,5 +1,5 @@
 import React from 'react';
-import View from './view';
+import View from '../general/view';
 
 export default function About() {
   return (

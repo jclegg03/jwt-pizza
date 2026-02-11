@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import { CloseEyeIcon, KeyIcon, EmailIcon } from '../icons';
-import Button from '../components/button';
-import { pizzaService } from '../service/service';
-import { useBreadcrumb } from '../hooks/appNavigation';
-import View from './view';
-import { User } from '../service/pizzaService';
+import { CloseEyeIcon, KeyIcon, EmailIcon } from '../../icons';
+import Button from '../../components/button';
+import { pizzaService } from '../../service/service';
+import { useBreadcrumb } from '../../hooks/appNavigation';
+import View from '../general/view';
+import { User } from '../../service/pizzaService';
 
 interface Props {
   setUser: (user: User) => void;

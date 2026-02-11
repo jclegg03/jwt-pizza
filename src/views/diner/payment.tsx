@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import View from './view';
-import Button from '../components/button';
-import { pizzaService } from '../service/service';
-import { Order, OrderItem } from '../service/pizzaService';
+import View from '../general/view';
+import Button from '../../components/button';
+import { pizzaService } from '../../service/service';
+import { Order, OrderItem } from '../../service/pizzaService';
 
 export default function Payment() {
   const [errMessage, setErrorMessage] = React.useState('');

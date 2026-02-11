@@ -1,11 +1,11 @@
 import React from 'react';
-import View from './view';
+import View from '../general/view';
 import { useNavigate } from 'react-router-dom';
-import NotFound from './notFound';
-import Button from '../components/button';
-import { pizzaService } from '../service/service';
-import { Franchise, FranchiseList, Role, Store, User } from '../service/pizzaService';
-import { TrashIcon } from '../icons';
+import NotFound from '../general/notFound';
+import Button from '../../components/button';
+import { pizzaService } from '../../service/service';
+import { Franchise, FranchiseList, Role, Store, User } from '../../service/pizzaService';
+import { TrashIcon } from '../../icons';
 
 interface Props {
   user: User | null;

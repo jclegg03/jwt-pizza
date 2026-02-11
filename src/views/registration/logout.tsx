@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { pizzaService } from '../service/service';
-import View from './view';
-import { User } from '../service/pizzaService';
+import { pizzaService } from '../../service/service';
+import View from '../general/view';
+import { User } from '../../service/pizzaService';
 
 interface Props {
   setUser: (user: User | null) => void;

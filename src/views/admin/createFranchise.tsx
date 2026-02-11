@@ -1,11 +1,11 @@
 import React from 'react';
-import { useBreadcrumb } from '../hooks/appNavigation';
-import { EmailIcon, StoreIcon } from '../icons';
-import { pizzaService } from '../service/service';
-import View from './view';
+import { useBreadcrumb } from '../../hooks/appNavigation';
+import { EmailIcon, StoreIcon } from '../../icons';
+import { pizzaService } from '../../service/service';
+import View from '../general/view';
 
-import Button from '../components/button';
-import { Franchise } from '../service/pizzaService';
+import Button from '../../components/button';
+import { Franchise } from '../../service/pizzaService';
 
 export default function CreateFranchise() {
   const navigateToParentPath = useBreadcrumb();
