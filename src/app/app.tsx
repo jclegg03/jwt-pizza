@@ -18,12 +18,14 @@ import CreateStore from '../views/franchise/createStore';
 import CreateFranchise from '../views/admin/createFranchise';
 import CloseFranchise from '../views/admin/closeFranchise';
 import CloseStore from '../views/franchise/closeStore';
+import CloseUser from '../views/admin/closeUser';
 import Payment from '../views/diner/payment';
 import NotFound from '../views/general/notFound';
 import Docs from '../views/about/docs';
 import Breadcrumb from '../components/breadcrumb';
 import { pizzaService } from '../service/service';
 import { Role, User } from '../service/pizzaService';
+import UsersView from '../views/admin/users';
 import 'preline/preline';
 
 declare global {
@@ -78,6 +80,7 @@ export default function App() {
     { title: 'Close franchise', to: '/:subPath?/close-franchise', component: <CloseFranchise />, display: [] },
     { title: 'Create store', to: '/:subPath?/create-store', component: <CreateStore />, display: [] },
     { title: 'Close store', to: '/:subPath?/close-store', component: <CloseStore />, display: [] },
+    { title: 'Close user', to: '/:subPath?/close-user', component: <CloseUser />, display: [] },
     { title: 'Payment', to: '/payment', component: <Payment />, display: [] },
     { title: 'Delivery', to: '/delivery', component: <Delivery />, display: [] },
     { title: 'Login', to: '/:subPath?/login', component: <Login setUser={setUser} />, constraints: [loggedOut], display: ['nav'] },
@@ -86,6 +89,7 @@ export default function App() {
     { title: 'Docs', to: '/docs/:docType?', component: <Docs />, display: [] },
     { title: 'Opps', to: '*', component: <NotFound />, display: [] },
     { title: 'Diner', to: '/diner-dashboard', component: <DinerDashboard user={user} setUser={setUser} />, display: [] },
+    { title: "Manage Users", to: '/admin-dashboard/users', component: <UsersView/>, constraints: [isAdmin], display: [] },
   ];
 
   return (

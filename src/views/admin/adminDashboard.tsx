@@ -27,6 +27,10 @@ export default function AdminDashboard(props: Props) {
     navigate('/admin-dashboard/create-franchise');
   }
 
+  function viewUsers() {
+    navigate('/admin-dashboard/users?page=1&limit=10&filter=*');
+  }
+
   async function closeFranchise(franchise: Franchise) {
     navigate('/admin-dashboard/close-franchise', { state: { franchise: franchise } });
   }
@@ -120,8 +124,9 @@ export default function AdminDashboard(props: Props) {
             </div>
           </div>
         </div>
-        <div>
+        <div className="flex gap-2">
           <Button className="w-36 text-xs sm:text-sm sm:w-64" title="Add Franchise" onPress={createFranchise} />
+          <Button className="w-48 text-xs sm:text-sm sm:w-64" title="View/Delete Users" onPress={viewUsers} />
         </div>
       </View>
     );

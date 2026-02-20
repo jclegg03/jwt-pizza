@@ -104,6 +104,10 @@ class HttpPizzaService implements PizzaService {
     return this.callEndpoint(`/api/franchise?page=${page}&limit=${limit}&name=${nameFilter}`);
   }
 
+  async getUsers(page: number = 0, limit: number = 10, nameFilter: string = '*') {
+    return this.callEndpoint(`/api/user?page=${page}&limit=${limit}&name=${nameFilter}`);
+  }
+
   async closeFranchise(franchise: Franchise): Promise<void> {
     return this.callEndpoint(`/api/franchise/${franchise.id}`, 'DELETE');
   }
@@ -114,6 +118,10 @@ class HttpPizzaService implements PizzaService {
 
   async closeStore(franchise: Franchise, store: Store): Promise<null> {
     return this.callEndpoint(`/api/franchise/${franchise.id}/store/${store.id}`, 'DELETE');
+  }
+
+  async deleteUser(user: User): Promise<void> {
+    return this.callEndpoint(`/api/user/${user.id}`, 'DELETE');
   }
 
   async docs(docType: string): Promise<Endpoints> {

@@ -33,7 +33,7 @@ test("View/Delete Users", async ({page, context}) => {
     await loginAdmin(page, context);
     await page.getByRole('link', { name: 'Admin' }).click();
 
-    await expect(page.getByRole('button', { name: 'View/Delete Users' })).toBeEnabled();
+    await page.getByRole('button', { name: 'View/Delete Users' }).click();
 })
 
 async function mockCloseFranchise(context: BrowserContext) {
