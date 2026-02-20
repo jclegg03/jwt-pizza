@@ -31,8 +31,8 @@ export default function UsersView() {
     setUserList(users);
   }
 
-  function closeUser(user: User) {
-    navigate('/admin-dashboard/close-user', { state: { user } });
+  function deleteUser(user: User) {
+    navigate('/admin-dashboard/delete-user', { state: { user } });
   }
 
   return (
@@ -63,7 +63,7 @@ export default function UsersView() {
                             {u.roles?.map((r) => r.role).join(', ')}
                           </td>
                           <td className="px-6 py-1 whitespace-nowrap text-end text-sm font-medium">
-                            <button type="button" className="px-2 py-1 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-1 border-orange-400 text-orange-400  hover:border-orange-800 hover:text-orange-800" onClick={() => closeUser(u)}>
+                            <button type="button" className="px-2 py-1 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-1 border-orange-400 text-orange-400  hover:border-orange-800 hover:text-orange-800" onClick={() => deleteUser(u)}>
                               <TrashIcon />
                               Delete
                             </button>

@@ -1,17 +1,16 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { pizzaService } from '../../service/service';
 import View from '../general/view';
 import Button from '../../components/button';
-import { useBreadcrumb } from '../../hooks/appNavigation';
 
-export default function CloseUser() {
+export default function DeleteUser() {
   const state = useLocation().state;
-  const navigateToParentPath = useBreadcrumb();
+  const navigate = useNavigate();
 
-  async function close() {
+  async function deleteUser() {
     await pizzaService.deleteUser(state.user);
-    navigateToParentPath();
+    navigate('/admin-dashboard/users');
   }
 
   return (
@@ -20,8 +19,8 @@ export default function CloseUser() {
         <div className='text-neutral-100'>
           Are you sure you want to delete the user <span className='text-orange-500'>{state.user.email}</span>? This action cannot be undone.
         </div>
-        <Button title='Delete' onPress={close} />
-        <Button title='Cancel' onPress={navigateToParentPath} className='bg-transparent border-neutral-300' />
+        <Button title='Delete' onPress={deleteUser} />
+        <Button title='Cancel' onPress={() => navigate('/admin-dashboard/users')} className='bg-transparent border-neutral-300' />
       </div>
     </View>
   );
