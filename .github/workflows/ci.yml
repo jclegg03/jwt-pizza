@@ -45,7 +45,7 @@ jobs:
       - name: Checkout backend repo
         uses: actions/checkout@v4
         with:
-          repository: jclegg03/jwt-pizza-service/
+          repository: jclegg03/jwt-pizza-service
           path: backend
 
       - name: Setup Node
@@ -60,6 +60,7 @@ jobs:
       
       - name: Write config file
         run: |
+          cd backend
           echo "module.exports = {
             jwtSecret: '${{ secrets.JWT_SECRET }}',
             db: {
