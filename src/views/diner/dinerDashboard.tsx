@@ -28,6 +28,8 @@ export default function DinerDashboard(props: Props) {
     })();
   }, [user]);
 
+  const [updateError, setUpdateError] = React.useState<string | null>(null);
+
   async function updateUser() {
     let updatedUser: User = {
       id: user.id,
@@ -37,12 +39,20 @@ export default function DinerDashboard(props: Props) {
       roles: user.roles,
     };
 
-    await pizzaService.updateUser(updatedUser);
-
-    props.setUser(updatedUser);
-    setTimeout(() => {
-      HSOverlay.close(document.getElementById('hs-jwt-modal')!);
-    }, 100);
+    try {
+      await pizzaService.updateUser(updatedUser);
+      props.setUser(updatedUser);
+      setUpdateError(null);
+      setTimeout(() => {
+        HSOverlay.close(document.getElementById('hs-jwt-modal')!);
+      }, 100);
+    } catch (e: any) {
+      if (e && e.message && (e.message.includes('email')) || (e.message.includes('Email'))) {
+        setUpdateError('Error: Email is already taken!');
+      } else {
+        setUpdateError('Error: Failed to update user.');
+      }
+    }
   }
 
   function formatRole(role: { role: Role; objectId?: string }) {
@@ -134,6 +144,9 @@ export default function DinerDashboard(props: Props) {
               </button>
             </div>
             <div className="p-4 overflow-y-scroll max-h-52">
+              {updateError && (
+                <div className="text-red-600 font-semibold mb-2">{updateError}</div>
+              )}
               <div className="my-4 text-lg text-start grid grid-cols-5 gap-2 items-center">
                 <div className="font-semibold">name:</div>
                 <input type="text" className="col-span-4 border border-gray-300 rounded-md p-1" defaultValue={user.name} ref={nameRef} />

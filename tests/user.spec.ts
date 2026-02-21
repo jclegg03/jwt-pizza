@@ -118,5 +118,5 @@ test("Update Email to duplicate email", async ({ page }) => {
     await page.locator('input[type="email"]').fill('taken@taken');
     await page.getByRole('button', { name: 'Update' }).click();
 
-    await expect(page.getByText("Error")).toBe("Error: Email is already taken!");
+    await expect(page.locator('#hs-jwt-modal')).toContainText('Error: Email is already taken!');
 });
