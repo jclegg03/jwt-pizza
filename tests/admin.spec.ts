@@ -31,9 +31,20 @@ test("Add Franchise", async ({page, context}) => {
 
 test("View/Delete Users", async ({page, context}) => {
     await loginAdmin(page, context);
+    await mockAPI(context, 'users', 'deleteUser');
+
     await page.getByRole('link', { name: 'Admin' }).click();
 
     await page.getByRole('button', { name: 'View/Delete Users' }).click();
+
+
+    await expect(page.getByRole('table')).toContainText('j@test');
+    await page.getByRole('row', { name: 'j j@test admin Delete' }).getByRole('button').click();
+    await expect(page.getByRole('main')).toContainText('j@test');
+    await page.getByRole('button', { name: 'Delete' }).click();
+
+    
+    await expect(page.locator('h2')).toContainText('Manage users');
 })
 
 async function mockCloseFranchise(context: BrowserContext) {

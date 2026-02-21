@@ -16,7 +16,9 @@ export type MokeMode =
     | 'verify'
     | "admin"
     | 'franchisee'
-    | 'getFranchise';
+    | 'getFranchise'
+    | 'users'
+    | 'deleteUser';
 
 async function mockAuth(context: BrowserContext, role: String) {
     await context.route('**/api/auth', async (route) => {
@@ -181,6 +183,40 @@ async function mockGetFranchise(context: BrowserContext) {
     }, { times: Infinity });
 }
 
+async function mockUsers(context: BrowserContext) {
+    await context.route('**/api/user?*', async (route) => {
+        if (route.request().method() === 'GET') {
+            const usersRes = [
+                {
+                    id: 1,
+                    name: 'j',
+                    email: 'j@test',
+                    roles: [{ role: 'admin' }],
+                },
+                {
+                    id: 2,
+                    name: 'diner',
+                    email: 'diner@test',
+                    roles: [{ role: 'diner' }],
+                }
+            ];
+            await route.fulfill({ json: usersRes });
+        } else {
+            await route.continue();
+        }
+    }, { times: Infinity });
+}
+
+async function mockDeleteUser(context: BrowserContext) {
+    await context.route('**/api/user/*', async (route) => {
+        if (route.request().method() === 'DELETE') {
+            await route.fulfill({ json: { message: 'User deleted successfully' } });
+        } else {
+            await route.continue();
+        }
+    }, { times: Infinity });
+}
+
 export async function mockAPI(context: BrowserContext, ...modes: MokeMode[]) {
     for (const mode of modes) {
         switch (mode) {
@@ -222,6 +258,14 @@ export async function mockAPI(context: BrowserContext, ...modes: MokeMode[]) {
             }
             case 'stores': {
                 throw new Error("not implemented")
+            }
+            case 'users': {
+                await mockUsers(context);
+                break;
+            }
+            case 'deleteUser': {
+                await mockDeleteUser(context);
+                break;
             }
 
         }
