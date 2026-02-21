@@ -175,7 +175,16 @@ async function mockGetFranchise(context: BrowserContext) {
                 "email": "j@test"
             }
         ],
-        "stores": []
+        "stores": [
+            {
+                "id": 1,
+                "name": "Biggy Smalls Pizza"
+            },
+            {
+                "id": 2,
+                "name": "store"
+            }
+        ]
     }
 ]
 
@@ -255,9 +264,6 @@ export async function mockAPI(context: BrowserContext, ...modes: MokeMode[]) {
             case 'getFranchise': {
                 await mockGetFranchise(context);
                 break;
-            }
-            case 'stores': {
-                throw new Error("not implemented")
             }
             case 'users': {
                 await mockUsers(context);
