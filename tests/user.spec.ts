@@ -1,4 +1,9 @@
 import { test, expect } from 'playwright-test-coverage';
+import { mockAPI } from './utils';
+
+test.beforeEach(async ({ context }) => {
+    await mockAPI(context, 'users', 'deleteUser');
+});
 
 test('Update User Name', async ({ page }) => {
     const email = `user${Math.floor(Math.random() * 10000)}@jwt.com`;
