@@ -3,7 +3,6 @@ name: Test S3 Deploy
 on:
   push:
     branches:
-      - main
       - test-s3
   workflow_dispatch:
 permissions:
