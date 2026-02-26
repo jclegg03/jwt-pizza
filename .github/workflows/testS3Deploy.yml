@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - test-s3
   workflow_dispatch:
 permissions:
   id-token: write
